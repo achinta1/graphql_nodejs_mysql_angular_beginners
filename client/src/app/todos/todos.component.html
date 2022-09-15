@@ -1,0 +1,43 @@
+<div class="main">
+    <h3>Users List</h3>
+    <div *ngIf="error">
+      <p>Error: {{ error }}</p>
+    </div>
+
+    <div *ngIf="messages">
+        <div *ngFor="let message of messages">
+            <p>{{ message.info }}</p>
+        </div>
+    </div>
+  
+    <form class="form" [formGroup]="userForm" (ngSubmit)="submitForm()">
+      <input class="input" type="text" name="name" placeholder="Enter todo" formControlName="name"/>
+      <br />
+      <input class="input" type="text" name="email"  placeholder="Enter Description"  formControlName="email"/>
+      <br />
+
+      <button *ngIf="userForm.get('id')?.value ==undefined || userForm.get('id')?.value==null || userForm.get('id')?.value=='' "  class="submit-button" [disabled]="userForm.invalid">Save</button>
+
+      <button *ngIf="userForm.get('id')?.value !=undefined && userForm.get('id')?.value!=null && userForm.get('id')?.value!='' " class="submit-button" [disabled]="userForm.invalid">Update</button>
+    </form>
+  
+    <div class="todo-container" *ngIf="users">
+      <ul>
+        <li *ngFor="let todo of users">
+            <div class="todo">
+                <span class="todo-name">{{ todo.name }}</span>
+                <span class="todo-description">{{ todo.email }}</span>
+            </div>
+            <div class="todo">
+                <span >
+                    <button *ngIf="userForm.get('id')?.value != todo.id " class="delete-btn" (click)="deleteTodo(todo.id)">Delete</button>&nbsp;
+
+                    <button *ngIf="userForm.get('id')?.value ==undefined || userForm.get('id')?.value==null || userForm.get('id')?.value=='' "  class="delete-btn" (click)="getTodo(todo.id)"> Edit </button>
+
+                    <button *ngIf="userForm.get('id')?.value !=undefined && userForm.get('id')?.value!=null && userForm.get('id')?.value!='' " class="delete-btn" (click)="cancelTodo()"> Edit Cancel </button>
+                </span>
+            </div>
+        </li>
+      </ul>
+    </div>
+    </div>
